@@ -1,11 +1,11 @@
 const games=[
- ['boxhead','Boxhead','SURVIVAL / LOCAL MULTIPLAYER','Hold the line against the horde. Bring a friend, or make them your rival.','WASD + mouse · Solo touch controls','#4d4535'],
- ['impossible','The Impossible Game','PRECISION / ONE BUTTON','Three courses. Every jump matters. Every failure gets you closer to a clean run.','Space / click / tap · Practice mode','#c8b48c'],
+ ['boxhead','Blockhead: Arena Nights','SURVIVAL / LOCAL MULTIPLAYER','Hold the line against the horde. Bring a friend, or make them your rival.','WASD + mouse · Solo touch controls','#4d4535'],
+ ['impossible','Impossible Run','PRECISION / ONE BUTTON','Five tracks. Every jump matters. Every failure gets you closer to a clean run.','Space / click / tap · Practice mode','#c8b48c'],
  ['burger-tycoon','Burger Tycoon','MANAGEMENT / CORPORATE SATIRE','Four operations. One fragile empire. Growth comes at a cost.','Mouse / touch · 1–4 operations','#697656'],
- ['chicken-invaders','Chicken Invaders','ARCADE / SPACE SHOOTER','A very poultry invasion. Blast through formations and face the flock leaders.','WASD / arrows + Space · Drag to fly','#24355b'],
- ['swords-and-sandals','Swords & Sandals','TURN-BASED / GLADIATOR RPG','Twelve challengers. Three tournaments. Train, equip, and earn your crown.','Mouse / touch · Turn-based battles','#9b674b'],
- ['chicken-invaders-original','Cluck Horizon','ARCADE / ORIGINAL CAMPAIGN','An interstellar courier. Two hostile sectors. One extremely bad delivery route.','WASD / arrows + Space · Drag to fly','#405372'],
- ['hardest',"The World’s Hardest Game",'PRECISION / 114 LEVELS','A red square against impossible odds. Coins, keys, portals, and no excuses.','WASD / arrows · Touch joystick','#827fa2']
+ ['chicken-invaders','Galactic Chicken','ARCADE / SPACE SHOOTER','Ten chapters from the rim to the sun. Formations, gifts, missiles, bosses.','WASD / arrows + Space · Drag to fly','#24355b'],
+ ['swords-and-sandals','Sandals of Steel','TURN-BASED / GLADIATOR RPG','Twelve challengers. Three tournaments. Train, equip, and earn your crown.','Mouse / touch · Turn-based battles','#9b674b'],
+ ['chicken-invaders-original','Cluck Horizon','ARCADE / ORIGINAL CAMPAIGN','A courier pilot versus the flock. Three sectors, kitchen-tech weapons, overgrown bosses.','WASD / arrows + Space · Drag to fly','#405372'],
+ ['hardest',"The World’s Cruelest Game",'PRECISION / 114 LEVELS','A red square against cruel odds. Coins, keys, portals, and no excuses.','WASD / arrows · Touch joystick','#827fa2']
 ];
 const grid=document.getElementById('grid');
 for(const [i,[slug,title,genre,copy,controls,color]] of games.entries()){

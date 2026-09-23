@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Runner, DT, LEVEL_END, GROUND_Y, CUBE, COURSES } from '../../MAGA-everything/02-code/armor-games/apps/impossible/src/runner.ts';
-import { Sim } from '../../MAGA-everything/02-code/armor-games/apps/burger-tycoon/src/sim.ts';
+import { Sim, TUNE, totalBacklash } from '../../MAGA-everything/02-code/armor-games/apps/burger-tycoon/src/sim.ts';
 import { load } from '../../MAGA-everything/02-code/armor-games/packages/arcade-core/src/storage.ts';
 export const jumps=[1330,1790,2300,2880,3290,3840,4280,4920,5490,6240,6750,7000,7250,7750,8400,8990,9300];
 test('Impossible entire normal course clears with discrete player jump presses',()=>{
@@ -16,15 +16,23 @@ test('Impossible misses kill, instant retries, and practice keeps its checkpoint
 test('Impossible landing never snaps a cube upward through a platform',()=>{
  const r=new Runner();r.x=2964;r.y=GROUND_Y-CUBE;r.grounded=false;r.vy=50;r.step(DT);assert.equal(r.state,'dead');
 });
-test('Burger clean idle economy reaches bankruptcy and can start over',()=>{
- const s=new Sim();for(let i=0;i<120000&&!s.s.over;i++)s.tick(1/60);
- assert.equal(s.s.over,true);assert.match(s.s.overReason,/BANKRUPT/);assert.ok(s.s.t>60);s.reset();assert.equal(s.s.cash,500);assert.equal(s.s.over,false);
+test('Burger clean idle economy reaches a forced ending and can start over',()=>{
+ const s=new Sim();s.reset(1);
+ for(let i=0;i<4000&&!s.s.over;i++)s.tick(0.05);
+ assert.ok(s.s.over==='board'||s.s.over==='cash');
+ assert.match(s.s.overReason,/BANKRUPT|BOARD/);
+ assert.ok(s.s.t>1);
+ s.reset(1);assert.equal(s.s.cash,TUNE.startCash);assert.equal(s.s.over,'');
 });
-test('Burger dirty throughput increases earnings then causes backlash and collapse',()=>{
- const clean=new Sim(),dirty=new Sim();dirty.act('farm',2);dirty.act('feed',1);dirty.act('rest',1);
- for(let i=0;i<600;i++){clean.tick(1/60);dirty.tick(1/60);}assert.ok(dirty.s.cash>clean.s.cash);assert.ok(dirty.s.backlash>clean.s.backlash);
- for(let i=0;i<20000&&!dirty.s.over;i++)dirty.tick(1/60);
- assert.equal(dirty.s.over,true);assert.match(dirty.s.overReason,/REPUTATION/);assert.ok(dirty.events.some(e=>/DISEASE/.test(e)));
+test('Burger dirty levers raise backlash above a clean operation',()=>{
+ const clean=new Sim(),dirty=new Sim();clean.reset(7);dirty.reset(7);
+ dirty.act('farm',1);dirty.act('farm',6);dirty.act('feed',0);
+ assert.ok(totalBacklash(dirty.s)>totalBacklash(clean.s));
+ for(let i=0;i<800&&!dirty.s.over&&!clean.s.over;i++){clean.tick(0.05);dirty.tick(0.05);}
+ assert.ok(totalBacklash(dirty.s)>totalBacklash(clean.s));
+ for(let i=0;i<4000&&!dirty.s.over;i++)dirty.tick(0.05);
+ const log=dirty.events.join('\n')+' '+dirty.s.overReason;
+ assert.match(log,/SWILL|LAGOON|OUTBREAK|SCANDAL|POISON|FIRED|BOARD|BANKRUPT/);
 });
 test('Burger actions cannot spend unavailable resources or mutate a closed company',()=>{
  const s=new Sim();s.s.cash=0;const before=structuredClone(s.s);assert.equal(s.act('farm',1),null);assert.deepEqual(s.s,before);

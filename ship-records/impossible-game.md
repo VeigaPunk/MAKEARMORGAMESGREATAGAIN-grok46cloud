@@ -163,3 +163,40 @@ Evidence: `verification/evidence/release-r2/10..13-*.png`, `impossible-drive.log
 Consulted only this working copy (files, git history, prior records) and the
 original game as remembered. No external renditions consulted; no web or
 GitHub searches about this project; nothing left the working copy.
+
+## Run — grok 4.6 build websurface (2026-09-23)
+
+Identity of this run: **grok 4.6 build websurface**.
+
+The reachable rendition remains `arcade/` (one hub). Repository-root `index.html` now only redirects there, so the older `games/` file:// lineage is no longer an entry. Player-facing titles on the hub are original evocations (Blockhead: Arena Nights, Impossible Run, Burger Tycoon, Galactic Chicken, Sandals of Steel, Cluck Horizon, The World's Cruelest Game). INTERNAL-NO-PUBLIC banners were removed from the shipped pages.
+
+Gates re-run on this machine (Node 22):
+
+```
+node --test verification/tests/gameplay.test.mjs hardest/regression.mjs \
+  MAGA-everything/02-code/armor-games/apps/swords-and-sandals/tests/progression.test.mjs \
+  MAGA-everything/02-code/armor-games/packages/shmup-core/tests/campaign.test.mjs
+  → tests 31, pass 31, fail 0
+
+node hardest/validate.mjs
+  → 114/114 levels pass
+
+node verification/r2/audit-static.mjs
+  → STATIC AUDIT PASS
+
+node MAGA-everything/02-code/armor-games/apps/burger-tycoon/tools/sim.mjs
+  → CLEAN-MODERATE FIRED-BOARD Q11 · DIRTY-MAX SUSTAINED (3 scandals) · MIXED SUSTAINED
+```
+
+Browser evidence (real key input, agent-browser): `verification/evidence/grok46-websurface/`.
+Impossible Run Space opens the five-track select. Galactic Chicken Enter starts a wave. The World's Cruelest Game Enter starts level 1. Hub, Blockhead, Burger Tycoon, Sandals of Steel, and Cluck Horizon title screens render with no reported page errors.
+
+What changed in the sources this run:
+- Pause freezes a shmup chapter-clear countdown (`sim.ts`).
+- Chapter-unlock saves are clamped to a real chapter (`sim.ts`).
+- Campaign and burger tests now assert the shipped simulators, not the retired shapes.
+- Impossible Run no longer mounts a blank canvas over the stage.
+
+Deferrals: no physical phone; the 114-level corpus is validator-proven rather than hand-played this run; the shmup browser pass started chapter 1 rather than finishing all ten chapters by hand (the node campaign proof clears both packs by projectile collision).
+
+Provenance: this working copy only — its files, HEAD history, `verification/`, `ship-records/`, and `MAGA-everything/` sources. No web or GitHub search for this repository, its forks, or third-party remakes. The operator asked for a named fork; it was created as https://github.com/VeigaPunk/MAKEARMORGAMESGREATAGAIN-grok46cloud because GitHub will not fork a repository into the same account. No other publication.

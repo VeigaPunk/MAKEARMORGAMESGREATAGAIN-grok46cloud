@@ -134,7 +134,10 @@ export class ShmupSim {
 
   constructor(pack: ContentPack, private game: string) {
     this.pack = pack;
-    this.unlocked = load(game, 'chapter-unlocked', 1);
+    const storedUnlock = load(game, 'chapter-unlocked', 1);
+    const chapterCount = pack.chapters.length;
+    this.unlocked = Number.isInteger(storedUnlock) && storedUnlock >= 1 && storedUnlock <= chapterCount
+      ? storedUnlock : 1;
     this.high = load(game, 'highscore', 0);
     this.titleSel = Math.min(this.unlocked, pack.chapters.length);
     for (let i = 0; i < 90; i++) {
@@ -199,7 +202,10 @@ export class ShmupSim {
   }
 
   togglePause(): void {
-    if (this.mode === 'play') { this.paused = !this.paused; this.events.push('ui'); }
+    if (this.mode === 'play' || this.mode === 'clear') {
+      this.paused = !this.paused;
+      this.events.push('ui');
+    }
   }
 
   persistHigh(): void {
@@ -598,6 +604,7 @@ export class ShmupSim {
   step(dt: number): void {
     // chapter-clear countdown runs even while 'clear' freezes the field
     if (this.mode === 'clear') {
+      if (this.paused) return;
       this.clearT += dt;
       this.decayToast(dt);
       if (this.clearT >= CHAPTER_CLEAR_S) {

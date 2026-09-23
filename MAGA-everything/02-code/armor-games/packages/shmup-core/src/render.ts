@@ -165,8 +165,8 @@ export class ShmupRenderer {
     mk('ARROWS select chapter · ENTER/SPACE start · digits jump', 458, 13, 0x888899);
     mk('ARROWS/WASD move · SPACE/Z/LMB fire · X/SHIFT/RMB missile · ESC pause', 480, 11, 0x666677);
     mk(pack.id === 'replica'
-      ? 'formula replica — INTERNAL-NO-PUBLIC · clearance required to ship'
-      : 'original IP — INTERNAL-NO-PUBLIC · trademark search open', 502, 11, 0x666677);
+      ? 'THE FLOCK OWNS THE SOLAR ARC · CLEAR EVERY WORLD TO THE SUN'
+      : 'COURIER LOG · DELIVER THE ROUTE OR BECOME THE MENU', 502, 11, 0x666677);
     this.menuLayer.visible = false;
   }
 

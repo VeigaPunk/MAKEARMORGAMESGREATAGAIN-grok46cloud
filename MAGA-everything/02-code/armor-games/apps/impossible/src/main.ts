@@ -36,6 +36,9 @@ const unlocked = (i: number): boolean => i === 0 || medals[i - 1] !== 'none';
 const cv = document.createElement('canvas');
 cv.width = W;
 cv.height = H;
+cv.tabIndex = 0;
+cv.setAttribute('aria-label', 'Auto-running cube. Press Space or tap to jump.');
+cv.style.position = 'fixed';
 document.body.appendChild(cv);
 const ctx = cv.getContext('2d')!;
 
